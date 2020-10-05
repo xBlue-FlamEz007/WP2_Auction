@@ -10,7 +10,7 @@
 				<div class="card z-depth-0">
 					<div class="card-content center">
             <div class="white">
-          <img src="icons/hammer.png" style="width:250px;height:250px;"></div>
+          <img src="icons/hammer.svg" style="width:250px;height:250px;"></div>
 					</div>
           <div class="card-action center">
 						<a class="brand-text" href="https://www.w3schools.com/">Want to bid for items? <br> Click here!</a>
@@ -21,7 +21,7 @@
 				<div class="card z-depth-0">
 					<div class="card-content center">
             <div class="white">
-          <img src="icons/object.png" style="width:250px;height:250px;"></div>
+          <img src="icons/object.svg" style="width:250px;height:250px;"></div>
 					</div>
           <div class="card-action center">
 						<a class="brand-text" href="http://localhost/programs/add.php">Want to add items for auction? <br> Click here!</a>

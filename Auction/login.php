@@ -35,6 +35,7 @@ $email = $password = '';
 	<?php include('templates/header.php'); ?>
 
 	<section class="container grey-text">
+		<h2 class="brand-logo brand-text center">Login</h2><br>
 		<h4 class="center">Enter your details</h4>
 		<form class="white" action="login.php" method="POST">
 			<label>Email</label>
