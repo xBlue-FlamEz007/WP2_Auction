@@ -17,7 +17,6 @@
 	.arrow{
 	  width: 25px;
 	  height: 25px;
-	  border-radius: 50%;
 		float: right;
 		position: relative;
 		top: 25px;
@@ -41,5 +40,5 @@
       </ul>
     </div>
 		<a href="#"><img src="icons/down-arrow.svg" class="arrow"></a>
-		<a href="#"><img src="icons/profile_pic.png" class="circular"></a>
+		<a href="#"><img src="icons/default.png" class="circular"></a>
   </nav>

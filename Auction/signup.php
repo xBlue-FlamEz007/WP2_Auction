@@ -1,85 +1,123 @@
 <?php
 $fname = $lname = $email = $password = $confirm_password = '';
-	$errors = array('fname' => '', 'lname' => '', 'email' => '', 'password' => '', 'confirm_password' => '', 'profile_pic' => '');
+$errors = array('fname' => '', 'lname' => '', 'email' => '', 'password' => '', 'confirm_password' => '', 'profile_pic' => '');
 
-	if(isset($_POST['submit'])){
+if(isset($_POST['submit'])){
 
+	require 'templates/db.php';
 
-		if(empty($_POST['fname'])){
-			$errors['fname'] = 'First Name is required';
-		} else{
-			$fname = $_POST['fname'];
-			if(!preg_match("/^([a-zA-Z']+)$/",$_POST['fname'])){
-        $errors['fname'] = 'First Name must be valid';
-      }
-		}
-
-    if(empty($_POST['lname'])){
-			$errors['lname'] = 'Last Name is required';
-		} else{
-			$lname = $_POST['lname'];
-			if(!preg_match("/^([a-zA-Z']+)$/",$_POST['lname'])){
-        $errors['lname'] = 'Last Name must be valid';
-      }
-		}
-
-    if(empty($_POST['email'])){
-			$errors['email'] = 'An email is required';
-		} else{
-			$email = $_POST['email'];
-			if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-				$errors['email'] = 'Email must be a valid email address';
-			}
-		}
-
-    if (empty($_POST["password"])){
-      $errors['password'] = 'Password is required';
+	if(empty($_POST['fname'])){
+		$errors['fname'] = 'First Name is required';
+	} else{
+		$fname = $_POST['fname'];
+		if(!preg_match("/^([a-zA-Z']+)$/",$_POST['fname'])){
+      $errors['fname'] = 'First Name must be valid';
     }
-    else {
-      $password=  $_POST['password'];
-    }
-
-    if (empty($_POST["confirm_password"])){
-      $errors['confirm_password'] = 'Confirm password is required';
-    }
-    else {
-      $confirm_password=  $_POST['confirm_password'];
-      if($_POST['password']!=$_POST['confirm_password']){
-        $errors['confirm_password'] = 'Confirm password should match Password';
-      }
-    }
-		do {
-			if(isset($_FILES['profile_pic'])){
-	      $file_name = $_FILES['profile_pic']['name'];
-	      $file_size = $_FILES['profile_pic']['size'];
-	      $file_tmp = $_FILES['profile_pic']['tmp_name'];
-	      $file_type = $_FILES['profile_pic']['type'];
-	      $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
-	      $expensions= array("jpeg","jpg","png");
-
-				if($file_name==''){
-					break;
-				}
-
-	      if(in_array($file_ext,$expensions)=== false){
-	         $errors['profile_pic']="extension not allowed, please choose a JPEG or PNG file.";
-	      }
-
-	      if($file_size > 2097152) {
-	         $errors['profile_pic']='File size must be excately 2 MB';
-	      }
-				break;
-	   }
- 	 }while(1);
-
-
-    if(!array_filter($errors)){
-			move_uploaded_file($file_tmp, "icons/profile_pic.png");
-      header('Location: login.php');
-    }
-
-
 	}
+
+  if(empty($_POST['lname'])){
+		$errors['lname'] = 'Last Name is required';
+	} else{
+		$lname = $_POST['lname'];
+		if(!preg_match("/^([a-zA-Z']+)$/",$_POST['lname'])){
+      $errors['lname'] = 'Last Name must be valid';
+    }
+	}
+
+  if(empty($_POST['email'])){
+		$errors['email'] = 'An email is required';
+	} else{
+		$email = $_POST['email'];
+		if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			$errors['email'] = 'Email must be a valid email address';
+		}
+
+		$sql = "SELECT email FROM users WHERE email=?";
+		$stmt = mysqli_stmt_init($conn);
+		if (!mysqli_stmt_prepare($stmt, $sql)) {
+			header("Location: http://localhost/WP2_Auction/Auction/signup.php?error=sqlerror");
+			exit();
+		}
+		else {
+			mysqli_stmt_bind_param($stmt, "s", $email);
+			mysqli_stmt_execute($stmt);
+			mysqli_stmt_store_result($stmt);
+			$resultCheck = mysqli_stmt_num_rows($stmt);
+			if ($resultCheck > 0) {
+				$errors['email'] = 'An account has already been created with this email';
+			}
+			mysqli_stmt_close($stmt);
+		}
+	}
+
+  if (empty($_POST["password"])){
+    $errors['password'] = 'Password is required';
+  }
+  else {
+    $password=  $_POST['password'];
+  }
+
+  if (empty($_POST["confirm_password"])){
+    $errors['confirm_password'] = 'Confirm password is required';
+  }
+  else {
+    $confirm_password=  $_POST['confirm_password'];
+    if($_POST['password']!=$_POST['confirm_password']){
+      $errors['confirm_password'] = 'Confirm password should match Password';
+    }
+  }
+
+	do {
+		if(isset($_FILES['profile_pic'])){
+      $file_name = $_FILES['profile_pic']['name'];
+      $file_size = $_FILES['profile_pic']['size'];
+      $file_tmp = $_FILES['profile_pic']['tmp_name'];
+      $file_type = $_FILES['profile_pic']['type'];
+      $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+      $expensions= array("jpeg","jpg","png");
+
+			if($file_name==''){
+				break;
+			}
+
+      if(in_array($file_ext,$expensions)=== false){
+         $errors['profile_pic']="extension not allowed, please choose a JPEG or PNG file.";
+      }
+
+      if($file_size > 2097152) {
+         $errors['profile_pic']='File size must be excately 2 MB';
+      }
+			break;
+   	}
+	 }while(1);
+
+  if(!array_filter($errors)) {
+
+		$name = $fname . " " . $lname;
+		if($file_name=="") {
+			$img_dir = "icons/default.png";
+		}
+		else {
+			$img_dir = "icons/$file_name";
+		}
+		$sql = "INSERT INTO users (name, email, password, profile_pic) VALUES (?, ?, ?, ?)";
+		$stmt = mysqli_stmt_init($conn);
+		if (!mysqli_stmt_prepare($stmt, $sql)) {
+			header("Location: http://localhost/WP2_Auction/Auction/signup.php?error=sqlerror111");
+			exit();
+		}
+		else {
+			$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+			mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $hashed_password, $img_dir);
+			mysqli_stmt_execute($stmt);
+			move_uploaded_file($file_tmp, $img_dir);
+	    header('Location: login.php');
+		}
+		mysqli_stmt_close($stmt);
+	}
+	mysqli_close($conn);
+}
 
 ?>
 
