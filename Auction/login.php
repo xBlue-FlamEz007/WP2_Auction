@@ -1,4 +1,7 @@
 <?php
+session_start();
+session_unset();
+include('templates/header.php');
 $email = $password = '';
 	$errors = array('email' => '', 'password' => '');
 
@@ -48,7 +51,7 @@ $email = $password = '';
 
 			//session_start();
 			$_SESSION['user_id'] = $row["user_id"];
-			$_SESSION['user_image'] = $row["profile_pic"];
+			$_SESSION['profile_pic'] = $row["profile_pic"];
 			$_SESSION['name'] = $row['name'];
 
 			mysqli_stmt_close($stmt);
@@ -65,9 +68,6 @@ $email = $password = '';
 
 <!DOCTYPE html>
 <html>
-
-	<?php include('templates/header.php'); ?>
-
 	<section class="container grey-text">
 		<h2 class="brand-logo brand-text center">Login</h2><br>
 		<h4 class="center">Enter your details</h4>

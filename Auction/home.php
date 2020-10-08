@@ -1,5 +1,7 @@
 <html>
-<?php include('templates/header.php');
+<?php
+session_start();
+include('templates/header.php');
 ?>
 <title>Home Page</title>
 <body>

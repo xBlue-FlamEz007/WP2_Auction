@@ -1,4 +1,5 @@
 <?php
+include('templates/header.php');
 $fname = $lname = $email = $password = $confirm_password = '';
 $errors = array('fname' => '', 'lname' => '', 'email' => '', 'password' => '', 'confirm_password' => '', 'profile_pic' => '');
 
@@ -151,11 +152,6 @@ if(isset($_POST['submit'])){
 		}
 	</style>
 
-	<?php include('templates/header.php');
-	session_unset();
-	session_destroy();
-	?>
-
 	<section class="container grey-text">
 		<h2 class="brand-logo brand-text center">Sign Up</h2><br>
 		<h4 class="center">Enter your details</h4>
@@ -182,7 +178,7 @@ if(isset($_POST['submit'])){
 				<input type="submit" name="submit" value="Submit" class="btn brand z-depth-0"><br><br>
 				<div class="border-top pt-3">
 	        <small class="text-muted">
-	            Already Have An Account? <a class="ml-2" href="login.php">Sign In</a>
+	            Already Have An Account? <a class="ml-2" href="login.php">Login</a>
 	        </small>
 			</div>
 	    </div>

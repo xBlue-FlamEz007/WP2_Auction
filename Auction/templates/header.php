@@ -1,14 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION['name'])) {
-	echo $_SESSION['name'];
-}
-else {
-	echo "AAAAAAAAAAAAAAA";
-}
-
-?>
-
 <head>
 	<title>Auction Ninja</title>
 	<!-- Compiled and minified CSS -->
@@ -49,6 +38,10 @@ else {
 		top: 2px;
 		padding: 10px
 	}
+	#login-pos {
+  font-size: 20px;
+	 margin: auto 10px;
+}
   </style>
 </head>
 <body class="grey lighten-4">
@@ -56,7 +49,7 @@ else {
     <div class="container">
       <a href="#" class="brand-logo brand-text">Auction Ninjas</a>
       <ul id="nav-mobile" class="right hide-on-small-and-down">
-      </ul
+      </ul>
     </div>
 
 		<?php
@@ -67,10 +60,16 @@ else {
 		    </ul>
 
 				<a class="dropdown-button" style="float:right" data-activates = "dropdown"><img src="icons/down-arrow.svg" class="arrow"></a>
-				<a href="#"><img src="icons/default.png" class="circular"></a>';
+				<a href="#"><img src="' . $_SESSION['profile_pic'] . '" class="circular"></a>';
 			}
 			else {
-				echo '<a href = "login.php" class="brand-text" style="float:right">Login</a></li>';
+				if (basename($_SERVER['PHP_SELF']) == 'login.php') {
+					echo '<a href = "signup.php" class="brand-text" id="login-pos" style="float:right">Sign Up</a></li>';
+				}
+				else {
+					echo '<a href = "login.php" class="brand-text" id="login-pos" style="float:right">Login</a></li>';
+				}
+
 			}
 		 ?>
 
