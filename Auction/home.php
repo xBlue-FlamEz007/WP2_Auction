@@ -1,5 +1,6 @@
 <html>
-<?php include('templates/header.php'); ?>
+<?php include('templates/header.php');
+?>
 <title>Home Page</title>
 <body>
   <br><br>
@@ -13,7 +14,7 @@
           <img src="icons/hammer.svg" style="width:250px;height:250px;"></div>
 					</div>
           <div class="card-action center">
-						<a class="brand-text" href="https://www.w3schools.com/">Want to bid for items? <br> Click here!</a>
+						<a class="brand-text" href="#">Want to bid for items? <br> Click here!</a>
 					</div>
 				</div>
 			</div>

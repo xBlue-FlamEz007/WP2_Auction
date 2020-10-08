@@ -1,7 +1,26 @@
+<?php
+session_start();
+if (isset($_SESSION['name'])) {
+	echo $_SESSION['name'];
+}
+else {
+	echo "AAAAAAAAAAAAAAA";
+}
+
+?>
+
 <head>
 	<title>Auction Ninja</title>
 	<!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+      <link rel = "stylesheet"
+         href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link rel = "stylesheet"
+         href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+      <script type = "text/javascript"
+         src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+      </script>
   <style type="text/css">
 	  .brand{
 	  	background: #cbb09c !important;
@@ -37,8 +56,23 @@
     <div class="container">
       <a href="#" class="brand-logo brand-text">Auction Ninjas</a>
       <ul id="nav-mobile" class="right hide-on-small-and-down">
-      </ul>
+      </ul
     </div>
-		<a href="#"><img src="icons/down-arrow.svg" class="arrow"></a>
-		<a href="#"><img src="icons/default.png" class="circular"></a>
+
+		<?php
+			if (isset($_SESSION['user_id'])) {
+				echo '<ul id = "dropdown" class = "dropdown-content">
+		       <li><a href = "#" class="brand-text" style="font-size:12px">Edit Account</a></li>
+		       <li><a href = "logout.php" class="brand-text" style="font-size:12px">Logout</a></li>
+		    </ul>
+
+				<a class="dropdown-button" style="float:right" data-activates = "dropdown"><img src="icons/down-arrow.svg" class="arrow"></a>
+				<a href="#"><img src="icons/default.png" class="circular"></a>';
+			}
+			else {
+				echo '<a href = "login.php" class="brand-text" style="float:right">Login</a></li>';
+			}
+		 ?>
+
   </nav>
+</body>

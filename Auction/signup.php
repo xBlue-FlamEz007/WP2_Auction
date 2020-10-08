@@ -103,7 +103,7 @@ if(isset($_POST['submit'])){
 		$sql = "INSERT INTO users (name, email, password, profile_pic) VALUES (?, ?, ?, ?)";
 		$stmt = mysqli_stmt_init($conn);
 		if (!mysqli_stmt_prepare($stmt, $sql)) {
-			header("Location: http://localhost/WP2_Auction/Auction/signup.php?error=sqlerror111");
+			header("Location: http://localhost/WP2_Auction/Auction/signup.php?error=sqlerror");
 			exit();
 		}
 		else {
@@ -111,6 +111,7 @@ if(isset($_POST['submit'])){
 
 			mysqli_stmt_bind_param($stmt, "ssss", $name, $email, $hashed_password, $img_dir);
 			mysqli_stmt_execute($stmt);
+
 			move_uploaded_file($file_tmp, $img_dir);
 	    header('Location: login.php');
 		}
@@ -149,7 +150,11 @@ if(isset($_POST['submit'])){
 		background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 		}
 	</style>
-	<?php include('templates/header.php'); ?>
+
+	<?php include('templates/header.php');
+	session_unset();
+	session_destroy();
+	?>
 
 	<section class="container grey-text">
 		<h2 class="brand-logo brand-text center">Sign Up</h2><br>
@@ -174,8 +179,13 @@ if(isset($_POST['submit'])){
 			<input type="file" class="custom-file-input" name="profile_pic", id="profile_pic">
 			<div class="red-text"><?php echo $errors['profile_pic']; ?></div><br>
 			<div class="center">
-				<input type="submit" name="submit" value="Submit" class="btn brand z-depth-0">
+				<input type="submit" name="submit" value="Submit" class="btn brand z-depth-0"><br><br>
+				<div class="border-top pt-3">
+	        <small class="text-muted">
+	            Already Have An Account? <a class="ml-2" href="login.php">Sign In</a>
+	        </small>
 			</div>
+	    </div>
 		</form>
 	</section>
 
